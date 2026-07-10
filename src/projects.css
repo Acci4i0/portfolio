@@ -1,0 +1,329 @@
+/* ============================================================================
+   Pagina /projects — stili replicati dal riferimento malikkotb.com/work.
+   Provenienza dei valori, regola per regola:
+   - reference/malik-work/2m7ilckacmn_q.css  → body, .header-btn, .projectLink
+   - reference/malik-work/3x9jw0migkww-.css  → .directional-list__*, tile
+   - reference/malik-work/work.pretty.html   → classi utility Tailwind inline
+     (grid, spaziature, aspect ratio) convertite qui in CSS esplicito.
+   Font: Inter (OFL, self-hosted via @fontsource) al posto dei font commerciali
+   del riferimento (ABC Monument Grotesk / PP Neue Montreal, non copiabili).
+   ========================================================================== */
+
+/* --- Reset minimo (equivalente del preflight Tailwind usato dal riferimento) */
+*,
+:after,
+:before {
+  box-sizing: border-box;
+  border: 0 solid;
+  margin: 0;
+  padding: 0;
+}
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+button {
+  font: inherit;
+  background: none;
+  color: inherit;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+h3 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+/* --- Base pagina — provenienza: 2m7ilckacmn_q.css (regola body) ------------ */
+html {
+  scroll-behavior: smooth; /* 2m7ilckacmn_q.css */
+  height: 100%;
+}
+body {
+  color: #000; /* 2m7ilckacmn_q.css */
+  background-color: #f9f9f9;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem; /* padding globale del riferimento */
+  /* Font del riferimento sostituito con Inter (vedi intestazione) */
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: clamp(0.75rem, 0.714rem + 0.179vw, 0.875rem); /* 2m7ilckacmn_q.css */
+  line-height: 1;
+  -webkit-font-smoothing: antialiased; /* body class "antialiased" */
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+/* --- Header — provenienza: work.pretty.html r.87 (classi utility) ---------- */
+.site-header {
+  z-index: 300; /* z-[300] */
+  width: 100%;
+  position: fixed; /* mobile: fixed; da md: relative (sotto) */
+  top: 0;
+  left: 0;
+  padding: 1rem; /* p-4 */
+  /* hide-on-scroll: transition-transform duration-500 ease-in-out */
+  transition: transform 0.5s ease-in-out;
+  transform: translateY(0);
+}
+.site-header--hidden {
+  transform: translateY(-100%);
+}
+@media (min-width: 768px) {
+  .site-header {
+    position: relative; /* md:relative md:p-0 */
+    padding: 0;
+  }
+}
+.site-header__inner {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+/* --- Bottoni — provenienza: 2m7ilckacmn_q.css (.header-btn) ---------------- */
+.header-btn {
+  -webkit-backdrop-filter: blur(20px); /* 2m7ilckacmn_q.css */
+  backdrop-filter: blur(20px);
+  opacity: 0.8;
+  color: #000;
+  touch-action: manipulation;
+  -webkit-font-smoothing: antialiased;
+  background-color: #dedede;
+  border-radius: 12px;
+  padding: 12px 14px;
+  transition:
+    border-radius 0.2s,
+    background-color 0.2s,
+    opacity 0.2s;
+  display: inline-block;
+}
+@media (hover: hover) {
+  .header-btn:hover {
+    cursor: pointer; /* 2m7ilckacmn_q.css: due regole hover */
+    opacity: 0.6;
+    background-color: #e1e1e1;
+    border-radius: 4px;
+  }
+}
+
+/* --- Riga label + toggle — provenienza: work.pretty.html r.180–188 --------- */
+.page-content {
+  height: 100%;
+  width: 100%;
+  padding-top: 25vh; /* pt-[25vh] */
+  padding-bottom: 5vh; /* pb-[5vh] */
+  opacity: 0; /* stato iniziale del fade d'ingresso (GSAP lo porta a 1) */
+}
+#work {
+  min-height: 60vh; /* min-h-[60vh] */
+  height: 100%;
+  width: 100%;
+}
+.work-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 1rem; /* pb-4 */
+}
+.work-label {
+  font-size: 12px; /* text-[12px] */
+}
+.work-toggle {
+  display: flex;
+  gap: 0.375rem; /* gap-1.5 */
+}
+/* Stati del toggle: attivo opacity-100, inattivo opacity-60 (work.pretty.html) */
+.work-toggle .header-btn {
+  opacity: 0.6;
+}
+.work-toggle .header-btn.is-active {
+  opacity: 1;
+}
+
+/* --- Vista GRID — provenienza: work.pretty.html r.441–462 ------------------ */
+.work-grid {
+  position: relative;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr; /* grid-cols-1 */
+  column-gap: 12px; /* gap-[12px] */
+  row-gap: 2rem; /* gap-y-8 */
+  padding-bottom: 2rem; /* pb-8 */
+}
+@media (min-width: 1024px) {
+  .work-grid {
+    grid-template-columns: repeat(2, 1fr); /* lg:grid-cols-2 */
+    padding-bottom: 0; /* lg:pb-0 */
+  }
+}
+.work-card {
+  cursor: pointer; /* classe "group cursor-pointer" */
+}
+.work-card__thumb {
+  aspect-ratio: 5 / 3; /* aspect-[5/3] */
+  overflow: hidden;
+  position: relative;
+  border-radius: 4px; /* rounded-[4px] */
+  background-color: #f5f5f5; /* placeholder bg-neutral-100 */
+}
+.work-card__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* nel riferimento è un <video object-cover>; qui screenshot statico (deviazione dichiarata) */
+}
+/* Titolo card — stili inline dell'h3 nel riferimento (work.pretty.html r.452–458) */
+.work-card__title {
+  font-weight: 500;
+  line-height: 120%;
+  letter-spacing: 0.01em;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  width: fit-content; /* w-fit */
+  cursor: pointer; /* .projectLink — 2m7ilckacmn_q.css */
+  position: relative;
+}
+/* Underline animata — 2m7ilckacmn_q.css (.projectLink:after) */
+.work-card__title:after {
+  cursor: pointer;
+  content: "";
+  transform-origin: 0;
+  background-color: #000;
+  width: 100%;
+  height: 1px;
+  transition: transform 0.5s ease-in-out;
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  transform: scaleX(0);
+}
+.work-card:hover .work-card__title:after {
+  transform: scaleX(1); /* group-hover */
+}
+/* Split-char dei titoli su mobile (work-page.pretty.js r.348) */
+.split-char {
+  display: inline-block;
+}
+
+/* --- Vista LISTA (directional) — provenienza: 3x9jw0migkww-.css ------------ */
+.directional-list {
+  color: #000; /* 3x9jw0migkww-.css */
+  display: flex;
+  flex-flow: column;
+  width: 100%;
+  position: relative;
+}
+.directional-list__item {
+  color: inherit; /* 3x9jw0migkww-.css */
+  justify-content: space-between;
+  align-items: center;
+  margin-top: -1px;
+  padding: 0.75rem 0;
+  text-decoration: none;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+.directional-list__item:last-child {
+  border-bottom: 1px solid #0000004d; /* 3x9jw0migkww-.css */
+}
+.directional-list__border {
+  z-index: 2; /* 3x9jw0migkww-.css */
+  opacity: 0.3;
+  background-color: currentColor;
+  width: 100%;
+  height: 1px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.directional-list__border.is--item {
+  top: 0;
+  bottom: auto;
+}
+.directional-list__col-title {
+  position: relative; /* col-award del riferimento */
+}
+.directional-list__col-year {
+  flex: none; /* 3x9jw0migkww-.css */
+  min-width: 3em;
+  position: relative;
+}
+/* Testi: neri su bianco, bianchi sopra la tile nera via blend difference
+   — 3x9jw0migkww-.css (.direcitonal-list__p) */
+.dl-text {
+  mix-blend-mode: difference;
+  color: #fff;
+  margin-bottom: 0;
+  line-height: 100%;
+  /* Shift all'hover: nel riferimento è motion x 0→±10px, 0.12s easeOut
+     (work-page.pretty.js r.169–189; easeOut ≙ CSS ease-out, mappatura nel
+     loro bundle 3y0a0plp8khiw.js) */
+  transition: transform 0.12s ease-out;
+}
+.dl-text--year {
+  text-align: right;
+}
+@media (hover: hover) {
+  .directional-list__item:hover .dl-text--title {
+    transform: translateX(10px); /* work-page.pretty.js r.170 */
+  }
+  .directional-list__item:hover .dl-text--year {
+    transform: translateX(-10px); /* work-page.pretty.js r.188 */
+  }
+}
+/* Tile nera direzionale — 3x9jw0migkww-.css */
+.directional-list__hover-tile {
+  background-color: #000;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  will-change: transform;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(-100%);
+}
+@media (prefers-reduced-motion: reduce) {
+  .directional-list__hover-tile {
+    transition: none; /* 3x9jw0migkww-.css */
+  }
+}
+@media (max-width: 768px) {
+  .directional-list__hover-tile {
+    display: none; /* 3x9jw0migkww-.css */
+  }
+}
+
+/* --- Preview al cursore — work.pretty.html r.434 (classi utility) ---------- */
+.cursor-preview {
+  pointer-events: none;
+  display: none; /* hidden, visibile da sm (640px) */
+  position: fixed;
+  z-index: 50;
+  width: 250px; /* w-[250px] */
+  visibility: hidden;
+}
+@media (min-width: 640px) {
+  .cursor-preview {
+    display: block; /* sm:block */
+  }
+}
+.cursor-preview img {
+  width: 100%;
+  aspect-ratio: 16 / 9; /* aspect-video (nel riferimento è un <video>) */
+  object-fit: cover;
+}
+
+/* Utility del toggle (work.pretty.html). In fondo al file di proposito: deve
+   vincere in cascata su .work-grid{display:grid}, come in Tailwind dove le
+   utility vengono emesse per ultime. */
+.hidden {
+  display: none;
+}

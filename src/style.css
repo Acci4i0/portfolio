@@ -1,0 +1,186 @@
+/* ============================================================================
+   Stili replicati dal riferimento krisludi.com (solo regole funzionali).
+   Provenienza indicata blocco per blocco:
+   - reference/home.html r.5  → reset CSS ("Modern CSS Reset" di Andy Bell, MIT)
+   - reference/home.html r.6  → stili base body/link/selection
+   - reference/entry.css      → #app, h1, .floating-image, span/sup/.es
+   Omesse di proposito le regole morte #breakpoint / #edit-page (debug del loro
+   CMS: puntano a elementi che non esistono nel DOM, zero effetto sul rendering).
+   ========================================================================== */
+
+/* --- Reset — provenienza: reference/home.html r.5 (Modern CSS Reset) -------- */
+*,
+:after,
+:before {
+  box-sizing: border-box;
+}
+blockquote,
+body,
+dd,
+dl,
+figure,
+h1,
+h2,
+h3,
+h4,
+p {
+  margin: 0;
+}
+ol[role="list"],
+ul[role="list"] {
+  list-style: none;
+}
+html:focus-within {
+  scroll-behavior: smooth;
+}
+body {
+  line-height: 1.5; /* home.html r.5 */
+  min-height: 100vh;
+  text-rendering: optimizeSpeed;
+}
+a:not([class]) {
+  -webkit-text-decoration-skip: ink;
+  text-decoration-skip-ink: auto;
+}
+img,
+picture {
+  display: block;
+  max-width: 100%;
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+/* Nota fedeltà: azzera solo transizioni/animazioni CSS; il rimbalzo JS non è
+   condizionato a prefers-reduced-motion, esattamente come nell'originale. */
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+  *,
+  :after,
+  :before {
+    animation-duration: 0.01ms !important; /* home.html r.5 */
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* --- Base — provenienza: reference/home.html r.6 ---------------------------- */
+body {
+  font-size: 1em; /* home.html r.6 */
+}
+html {
+  box-sizing: border-box;
+  overscroll-behavior: none; /* home.html r.6 */
+}
+*,
+:after,
+:before {
+  box-sizing: inherit;
+}
+/* Selezione testo: #f000 = rosso con alpha 0 (trasparente) + testo al 50%,
+   valori esatti dell'originale — home.html r.6 */
+::-moz-selection {
+  background: #f000;
+  color: #00000080;
+}
+::selection {
+  background: #f000;
+  color: #00000080;
+}
+body {
+  background-color: #fff; /* home.html r.6 */
+  color: #000;
+  font-family: Times New Roman, Times, serif; /* font di sistema, nessun webfont */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100dvh;
+  overscroll-behavior: none;
+}
+a {
+  border-bottom: 1px solid; /* home.html r.6 */
+  color: #00f;
+  text-decoration: none;
+  transition: color 0.3s ease; /* unico easing link dell'originale */
+}
+a:hover {
+  color: #000;
+}
+
+/* --- App — provenienza: reference/entry.css --------------------------------- */
+#app {
+  height: 100dvh; /* entry.css */
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+h1 {
+  cursor: pointer; /* entry.css */
+  font-size: 1.25em; /* base; 1.5em da 48em; 1.85vw da 80em */
+  font-weight: 400;
+  left: 50%;
+  letter-spacing: 0.008em;
+  line-height: 1.25;
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  width: 90%;
+}
+@media (min-width: 48em) {
+  h1 {
+    font-size: 1.5em; /* entry.css, breakpoint 48em */
+  }
+}
+@media (min-width: 80em) {
+  h1 {
+    font-size: 1.85vw; /* entry.css, breakpoint 80em */
+  }
+}
+/* Stili per eventuale markup dentro i testi (l'originale usa <span>/<sup>/.es) */
+span {
+  margin-right: 0.65em; /* entry.css */
+}
+.es,
+span {
+  display: inline-block;
+  position: relative;
+}
+.es {
+  letter-spacing: 0.02em; /* entry.css */
+  margin-left: -0.12em;
+  margin-right: 0;
+}
+sup {
+  font-size: 0.8em; /* entry.css */
+  position: absolute;
+  right: -0.85em;
+}
+.floating-image {
+  cursor: pointer; /* entry.css */
+  height: auto; /* larghezza fissa, aspect ratio naturale della foto */
+  pointer-events: auto;
+  position: fixed;
+  /* Dichiarata nell'originale ma di fatto inerte: la sparizione usa
+     display:none (v-show), quindi non c'è dissolvenza — vedi ANALYSIS.md §5 */
+  transition: opacity 0.3s ease-out;
+  width: 80px; /* base; 100px da 48em; 120px da 80em — entry.css */
+  z-index: 10;
+}
+@media (min-width: 48em) {
+  .floating-image {
+    width: 100px; /* entry.css, breakpoint 48em */
+  }
+}
+@media (min-width: 80em) {
+  .floating-image {
+    width: 120px; /* entry.css, breakpoint 80em */
+  }
+}

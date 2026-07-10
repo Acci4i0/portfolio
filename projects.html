@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <!-- Viewport come il riferimento — reference/malik-work/work.pretty.html r.6 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Work | Andrea Lando</title>
+  <meta name="description" content="Selected works — Andrea Lando">
+  <link rel="stylesheet" href="./src/projects.css">
+  <script type="module" src="./src/projects.js"></script>
+</head>
+<body>
+  <!--
+    Struttura ricalcata sulla shell del riferimento (reference/malik-work/
+    work.pretty.html): header col nome in alto a sinistra; wrapper contenuto
+    [data-transition-content]; #work con riga "Selected Works" + toggle e le
+    due viste (lista nascosta, grid visibile: default = grid, come il
+    riferimento). Righe della lista e card della grid sono generate da
+    src/projects-data.js.
+  -->
+  <header class="site-header" id="site-header">
+    <div class="site-header__inner">
+      <a class="header-btn header-btn--logo" href="/"><span class="btn-text">Andrea Lando</span></a>
+    </div>
+  </header>
+
+  <div class="page-content" data-transition-content>
+    <div id="work">
+      <div class="work-toolbar">
+        <div class="work-label">Selected Works</div>
+        <div class="work-toggle">
+          <button type="button" id="btn-grid" class="header-btn is-active" aria-pressed="true"><span class="btn-text">Grid</span></button>
+          <button type="button" id="btn-list" class="header-btn" aria-pressed="false"><span class="btn-text">List</span></button>
+        </div>
+      </div>
+
+      <div id="view-list" class="hidden">
+        <div class="directional-list" data-type="y">
+          <div class="directional-list__list" id="list-items"></div>
+        </div>
+        <div class="cursor-preview" id="cursor-preview"><img alt="" id="cursor-preview-img"></div>
+      </div>
+
+      <div id="view-grid" class="work-grid"></div>
+    </div>
+  </div>
+</body>
+</html>

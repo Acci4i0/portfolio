@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.DS_Store
+
+# Copie di analisi dei siti di riferimento: materiale di terzi, non pubblicare
+# (vedi reference/README.md)
+reference/
+
+# Documenti di lavoro locali (analisi e checklist del processo di rebuild)
+ANALYSIS.md
+ANALYSIS_PROJECTS.md
+CHECKLIST.md
+CHECKLIST_PROJECTS.md

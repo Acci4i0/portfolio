@@ -25,6 +25,15 @@ npm run build   # build di produzione in dist/
 npm run preview # anteprima della build
 ```
 
+## Deploy
+
+Pubblicato su GitHub Pages: **https://acci4i0.github.io/portfolio/**
+
+A ogni push su `main` il workflow [`deploy.yml`](.github/workflows/deploy.yml)
+esegue la build Vite e pubblica `dist/` (Settings → Pages → Source deve essere
+"GitHub Actions"). La `base` di Vite è relativa (`./`), quindi il sito funziona
+in qualunque sottopercorso.
+
 ## Contenuti
 
 - Testi della home: array `texts` in [`src/main.js`](src/main.js)

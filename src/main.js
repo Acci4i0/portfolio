@@ -49,7 +49,8 @@ const hoverCaption = "Andrea Lando — Ritratto";
 // foto — decisione del 2026-07-10). L'uscita usa il fade della transizione di
 // pagina del riferimento malik: opacity→0, 0.5s, power4.out
 // (reference/malik-work/lenis-transition.pretty.js).
-const projectsUrl = "/projects.html";
+// BASE_URL: "/" in dev, "/portfolio/" nella build per GitHub Pages di progetto.
+const projectsUrl = import.meta.env.BASE_URL + "projects.html";
 
 // ---------------------------------------------------------------------------
 // STATO — speculare al componente originale (bundle r.7708–7715)

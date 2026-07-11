@@ -18,9 +18,9 @@ import gsap from "gsap";
 // I testi vengono iniettati con innerHTML: puoi usare markup <span>/<sup>.
 // ---------------------------------------------------------------------------
 const texts = [
-  "Andrea Lando",
+  "ANDREA",
   "lando.andrea04@gmail.com",
-  "@andrealando",
+  "@andrelndo",
   "Ok",
   "Ora parliamo d’altro",
   "Per esempio del tempo che fa",
@@ -42,7 +42,7 @@ const texts = [
 
 // Didascalia mostrata nell'h1 al passaggio del mouse sulla foto
 // (nell'originale: titolo del libro dell'artista — placeholder da modificare).
-const hoverCaption = "Andrea Lando — Ritratto";
+const hoverCaption = "ANDREA — Ritratto";
 
 // Destinazione del click sulla foto: la pagina Projects (deviazione voluta dal
 // riferimento kris, che apriva un URL esterno in nuova scheda e nascondeva la

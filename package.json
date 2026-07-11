@@ -1,7 +1,14 @@
 {
-  "name": "kris",
+  "name": "portfolio",
   "private": true,
   "version": "0.1.0",
+  "description": "Sito personale in due pagine: home con testo ciclico e foto che rimbalza, pagina projects con doppia vista grid/list",
+  "author": "Andrea (https://github.com/Acci4i0)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Acci4i0/portfolio.git"
+  },
   "type": "module",
   "scripts": {
     "dev": "vite",

@@ -1,4 +1,4 @@
-# Portfolio — Andrea Lando
+# portfolio — Andrea
 
 Sito personale in due pagine:
 
@@ -39,3 +39,7 @@ in qualunque sottopercorso.
 - Testi della home: array `texts` in [`src/main.js`](src/main.js)
 - Progetti (titoli, anni, link, thumbnail): [`src/projects-data.js`](src/projects-data.js)
 - Foto della home: `assets/andre.jpg` — thumbnail dei progetti in `assets/projects/`
+
+## Licenza
+
+[MIT](LICENSE) © Andrea ([Acci4i0](https://github.com/Acci4i0))

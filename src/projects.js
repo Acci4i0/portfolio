@@ -19,13 +19,33 @@ gsap.registerPlugin(ScrollTrigger);
 // (work-page.pretty.js r.19–46 usa il flag per moltiplicare durate e offset).
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+// Elementi e soglie condivisi tra rendering, entrance e hover della lista.
+const listWrap = document.getElementById("list-items");
+const gridWrap = document.getElementById("view-grid");
+const isMobile = () => window.innerWidth < 768; // soglia del riferimento (work-page.pretty.js r.366)
+
+main();
+
+function main() {
+  initSmoothScroll();
+  initPageTransitions();
+  initHeaderHideOnScroll();
+  renderListView();
+  renderGridView();
+  if (isMobile()) applySplitChars();
+  initViewToggle();
+  initListHoverInteractions();
+}
+
 // ---------------------------------------------------------------------------
 // SMOOTH SCROLL — il riferimento usa Lenis (window.lenis). La sua config non è
 // presente nei chunk della pagina: opzioni DEFAULT della libreria (deviazione
 // dichiarata in checklist).
 // ---------------------------------------------------------------------------
-const lenis = new Lenis({ autoRaf: true });
-window.lenis = lenis;
+function initSmoothScroll() {
+  const lenis = new Lenis({ autoRaf: true });
+  window.lenis = lenis;
+}
 
 // ---------------------------------------------------------------------------
 // TRANSIZIONE DI PAGINA — lenis-transition.pretty.js:
@@ -33,28 +53,30 @@ window.lenis = lenis;
 //   uscita:   opacity →0, 0.5s, power4.out, poi navigazione
 // (nel riferimento gira su [data-transition-content] a ogni cambio route)
 // ---------------------------------------------------------------------------
-const content = document.querySelector("[data-transition-content]");
-gsap.fromTo(
-  content,
-  { opacity: 0 },
-  { opacity: 1, duration: 1, ease: "power4.out" }, // enter — r.“l” del chunk
-);
+function initPageTransitions() {
+  const content = document.querySelector("[data-transition-content]");
+  gsap.fromTo(
+    content,
+    { opacity: 0 },
+    { opacity: 1, duration: 1, ease: "power4.out" }, // enter — r.“l” del chunk
+  );
 
-function leaveTo(href) {
-  gsap.to(content, {
-    opacity: 0,
-    duration: 0.5, // leave — r.“a” del chunk
-    ease: "power4.out",
-    onComplete: () => {
-      window.location.href = href;
-    },
+  function leaveTo(href) {
+    gsap.to(content, {
+      opacity: 0,
+      duration: 0.5, // leave — r.“a” del chunk
+      ease: "power4.out",
+      onComplete: () => {
+        window.location.href = href;
+      },
+    });
+  }
+  // Il nome in alto a sinistra torna alla home con la transizione di uscita.
+  document.querySelector(".header-btn--logo").addEventListener("click", (e) => {
+    e.preventDefault();
+    leaveTo(e.currentTarget.getAttribute("href"));
   });
 }
-// Il nome in alto a sinistra torna alla home con la transizione di uscita.
-document.querySelector(".header-btn--logo").addEventListener("click", (e) => {
-  e.preventDefault();
-  leaveTo(e.currentTarget.getAttribute("href"));
-});
 
 // ---------------------------------------------------------------------------
 // HEADER hide-on-scroll (mobile, dove l'header è fixed) — il riferimento ha
@@ -62,17 +84,19 @@ document.querySelector(".header-btn--logo").addEventListener("click", (e) => {
 // la logica esatta di soglia non è nei chunk estratti: uso il pattern
 // direzionale semplice (giù = nascondi, su = mostra) — dichiarato in checklist.
 // ---------------------------------------------------------------------------
-const header = document.getElementById("site-header");
-let lastScrollY = window.scrollY;
-window.addEventListener(
-  "scroll",
-  () => {
-    const y = window.scrollY;
-    header.classList.toggle("site-header--hidden", y > lastScrollY && y > 0);
-    lastScrollY = y;
-  },
-  { passive: true },
-);
+function initHeaderHideOnScroll() {
+  const header = document.getElementById("site-header");
+  let lastScrollY = window.scrollY;
+  window.addEventListener(
+    "scroll",
+    () => {
+      const y = window.scrollY;
+      header.classList.toggle("site-header--hidden", y > lastScrollY && y > 0);
+      lastScrollY = y;
+    },
+    { passive: true },
+  );
+}
 
 // ---------------------------------------------------------------------------
 // RENDERING delle due viste dai dati (nel riferimento è SSR React; qui i nodi
@@ -80,9 +104,46 @@ window.addEventListener(
 // href null → per ora nessuna navigazione (decisione utente); con href
 // valorizzato: target _blank + rel, come il riferimento.
 // ---------------------------------------------------------------------------
-const listWrap = document.getElementById("list-items");
-const gridWrap = document.getElementById("view-grid");
-const isMobile = () => window.innerWidth < 768; // soglia del riferimento (work-page.pretty.js r.366)
+
+// Vista lista — struttura: tile + bordo superiore + titolo | anno
+// (work.pretty.html r.198–225)
+function renderListView() {
+  for (const p of projects) {
+    const item = makeLink(p, "directional-list__item");
+    item.innerHTML =
+      '<div class="directional-list__hover-tile"></div>' +
+      '<div class="directional-list__border is--item"></div>' +
+      '<div class="directional-list__col-title"><p class="dl-text dl-text--title"></p></div>' +
+      '<div class="directional-list__col-year"><p class="dl-text dl-text--year"></p></div>';
+    item.querySelector(".dl-text--title").textContent = p.title;
+    item.querySelector(".dl-text--year").textContent = p.year;
+    // Stato iniziale pre-entrance del riferimento: opacity 0, translateY(20px)
+    // (work.pretty.html r.204, inline style) — saltato con reduced motion
+    if (!reducedMotion) {
+      item.style.opacity = "0";
+      item.style.transform = "translateY(20px)";
+    }
+    listWrap.appendChild(item);
+  }
+}
+
+// Vista grid — card: thumb 5/3 + titolo (work.pretty.html r.443–462)
+function renderGridView() {
+  for (const p of projects) {
+    const card = makeLink(p, "work-card");
+    const thumb = document.createElement("div");
+    thumb.className = "work-card__thumb";
+    const img = document.createElement("img");
+    img.src = p.img;
+    img.alt = p.title;
+    thumb.appendChild(img);
+    const title = document.createElement("h3");
+    title.className = "work-card__title";
+    title.textContent = p.title;
+    card.append(thumb, title);
+    gridWrap.appendChild(card);
+  }
+}
 
 function makeLink(project, className) {
   const a = document.createElement("a");
@@ -93,42 +154,6 @@ function makeLink(project, className) {
     a.rel = "noopener noreferrer";
   }
   return a;
-}
-
-// Vista lista — struttura: tile + bordo superiore + titolo | anno
-// (work.pretty.html r.198–225)
-for (const p of projects) {
-  const item = makeLink(p, "directional-list__item");
-  item.innerHTML =
-    '<div class="directional-list__hover-tile"></div>' +
-    '<div class="directional-list__border is--item"></div>' +
-    '<div class="directional-list__col-title"><p class="dl-text dl-text--title"></p></div>' +
-    '<div class="directional-list__col-year"><p class="dl-text dl-text--year"></p></div>';
-  item.querySelector(".dl-text--title").textContent = p.title;
-  item.querySelector(".dl-text--year").textContent = p.year;
-  // Stato iniziale pre-entrance del riferimento: opacity 0, translateY(20px)
-  // (work.pretty.html r.204, inline style) — saltato con reduced motion
-  if (!reducedMotion) {
-    item.style.opacity = "0";
-    item.style.transform = "translateY(20px)";
-  }
-  listWrap.appendChild(item);
-}
-
-// Vista grid — card: thumb 5/3 + titolo (work.pretty.html r.443–462)
-for (const p of projects) {
-  const card = makeLink(p, "work-card");
-  const thumb = document.createElement("div");
-  thumb.className = "work-card__thumb";
-  const img = document.createElement("img");
-  img.src = p.img;
-  img.alt = p.title;
-  thumb.appendChild(img);
-  const title = document.createElement("h3");
-  title.className = "work-card__title";
-  title.textContent = p.title;
-  card.append(thumb, title);
-  gridWrap.appendChild(card);
 }
 
 // ---------------------------------------------------------------------------
@@ -145,7 +170,7 @@ function applySplitChars() {
     for (const ch of text) {
       const s = document.createElement("span");
       s.className = "split-char";
-      s.textContent = ch === " " ? " " : ch;
+      s.textContent = ch === " " ? " " : ch;
       el.appendChild(s);
     }
   });
@@ -174,30 +199,31 @@ function applySplitChars() {
     });
   }, 300);
 }
-if (isMobile()) applySplitChars();
 
 // ---------------------------------------------------------------------------
 // TOGGLE GRID/LIST — meccanica esatta del riferimento (work-page.pretty.js
 // r.493–556): swap ISTANTANEO della classe `hidden`, aria-pressed, opacità
 // bottoni via classe. Default: grid. Nessuna animazione di passaggio.
 // ---------------------------------------------------------------------------
-const btnGrid = document.getElementById("btn-grid");
-const btnList = document.getElementById("btn-list");
-const viewGrid = document.getElementById("view-grid");
-const viewList = document.getElementById("view-list");
+function initViewToggle() {
+  const btnGrid = document.getElementById("btn-grid");
+  const btnList = document.getElementById("btn-list");
+  const viewGrid = document.getElementById("view-grid");
+  const viewList = document.getElementById("view-list");
 
-function setView(view) {
-  const grid = view === "grid";
-  viewGrid.classList.toggle("hidden", !grid);
-  viewList.classList.toggle("hidden", grid);
-  btnGrid.classList.toggle("is-active", grid);
-  btnList.classList.toggle("is-active", !grid);
-  btnGrid.setAttribute("aria-pressed", String(grid));
-  btnList.setAttribute("aria-pressed", String(!grid));
-  if (!grid) armListEntrance();
+  function setView(view) {
+    const grid = view === "grid";
+    viewGrid.classList.toggle("hidden", !grid);
+    viewList.classList.toggle("hidden", grid);
+    btnGrid.classList.toggle("is-active", grid);
+    btnList.classList.toggle("is-active", !grid);
+    btnGrid.setAttribute("aria-pressed", String(grid));
+    btnList.setAttribute("aria-pressed", String(!grid));
+    if (!grid) armListEntrance();
+  }
+  btnGrid.addEventListener("click", () => setView("grid"));
+  btnList.addEventListener("click", () => setView("list"));
 }
-btnGrid.addEventListener("click", () => setView("grid"));
-btnList.addEventListener("click", () => setView("list"));
 
 // ---------------------------------------------------------------------------
 // ENTRANCE DELLA LISTA — una sola volta, alla prima visibilità (equivalente di
@@ -244,29 +270,57 @@ function armListEntrance() {
 }
 
 // ---------------------------------------------------------------------------
-// DIRECTIONAL HOVER (lista) — pattern del riferimento (work-page.pretty.js
-// r.47–114), tipo "y": direzione dalla metà verticale dell'item. All'enter la
-// tile viene teletrasportata fuori dal lato d'ingresso senza transition
-// (reflow forzato) e poi fatta scivolare a 0; al leave esce dal lato d'uscita.
-// La transition della tile è in CSS: 0.5s cubic-bezier(.16,1,.3,1).
-// ---------------------------------------------------------------------------
-const OFFSCREEN = { top: "translateY(-100%)", bottom: "translateY(100%)" };
-function directionY(e, el) {
-  const r = el.getBoundingClientRect();
-  return e.clientY - r.top < r.height / 2 ? "top" : "bottom";
-}
-
-// ---------------------------------------------------------------------------
+// INTERAZIONI DELLA LISTA — hover direzionale, preview al cursore, suono tap.
+//
+// DIRECTIONAL HOVER — pattern del riferimento (work-page.pretty.js r.47–114),
+// tipo "y": direzione dalla metà verticale dell'item. All'enter la tile viene
+// teletrasportata fuori dal lato d'ingresso senza transition (reflow forzato)
+// e poi fatta scivolare a 0; al leave esce dal lato d'uscita. La transition
+// della tile è in CSS: 0.5s cubic-bezier(.16,1,.3,1).
+//
 // PREVIEW AL CURSORE — box fixed 250px che segue il mouse: left = x + 20px,
 // top = y − 125px (work-page.pretty.js r.115–119); visibile durante l'hover.
 // Nel riferimento contiene il video del progetto: qui la thumbnail statica
 // (deviazione dichiarata).
 // ---------------------------------------------------------------------------
-const preview = document.getElementById("cursor-preview");
-const previewImg = document.getElementById("cursor-preview-img");
-function movePreview(x, y) {
-  preview.style.left = `${x + 20}px`; // r.118
-  preview.style.top = `${y - 125}px`; // r.117
+function initListHoverInteractions() {
+  const preview = document.getElementById("cursor-preview");
+  const previewImg = document.getElementById("cursor-preview-img");
+
+  function movePreview(x, y) {
+    preview.style.left = `${x + 20}px`; // r.118
+    preview.style.top = `${y - 125}px`; // r.117
+  }
+
+  const OFFSCREEN = { top: "translateY(-100%)", bottom: "translateY(100%)" };
+  function directionY(e, el) {
+    const r = el.getBoundingClientRect();
+    return e.clientY - r.top < r.height / 2 ? "top" : "bottom";
+  }
+
+  // Cablaggio hover per ogni riga della lista
+  listWrap.querySelectorAll(".directional-list__item").forEach((item) => {
+    const tile = item.querySelector(".directional-list__hover-tile");
+    const project = projects[[...listWrap.children].indexOf(item)];
+
+    item.addEventListener("mouseenter", (e) => {
+      const dir = directionY(e, item);
+      tile.style.transition = "none"; // teleport senza transition — r.93
+      tile.style.transform = OFFSCREEN[dir];
+      void tile.offsetHeight; // reflow forzato — r.95
+      tile.style.transition = "";
+      tile.style.transform = "translate(0%, 0%)"; // slide in — r.97
+      previewImg.src = project.img;
+      preview.style.visibility = "visible"; // r.205
+      movePreview(e.clientX, e.clientY); // r.147
+      playTap();
+    });
+    item.addEventListener("mousemove", (e) => movePreview(e.clientX, e.clientY)); // r.153
+    item.addEventListener("mouseleave", (e) => {
+      tile.style.transform = OFFSCREEN[directionY(e, item)]; // esce dal lato del mouse — r.103
+      preview.style.visibility = "hidden";
+    });
+  });
 }
 
 // ---------------------------------------------------------------------------
@@ -297,27 +351,3 @@ function playTap() {
     /* come il riferimento: errori audio ignorati (r.151) */
   }
 }
-
-// Cablaggio hover per ogni riga della lista
-listWrap.querySelectorAll(".directional-list__item").forEach((item) => {
-  const tile = item.querySelector(".directional-list__hover-tile");
-  const project = projects[[...listWrap.children].indexOf(item)];
-
-  item.addEventListener("mouseenter", (e) => {
-    const dir = directionY(e, item);
-    tile.style.transition = "none"; // teleport senza transition — r.93
-    tile.style.transform = OFFSCREEN[dir];
-    void tile.offsetHeight; // reflow forzato — r.95
-    tile.style.transition = "";
-    tile.style.transform = "translate(0%, 0%)"; // slide in — r.97
-    previewImg.src = project.img;
-    preview.style.visibility = "visible"; // r.205
-    movePreview(e.clientX, e.clientY); // r.147
-    playTap();
-  });
-  item.addEventListener("mousemove", (e) => movePreview(e.clientX, e.clientY)); // r.153
-  item.addEventListener("mouseleave", (e) => {
-    tile.style.transform = OFFSCREEN[directionY(e, item)]; // esce dal lato del mouse — r.103
-    preview.style.visibility = "hidden";
-  });
-});

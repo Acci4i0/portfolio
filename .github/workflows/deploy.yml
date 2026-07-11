@@ -1,6 +1,8 @@
-# Deploy canonico su GitHub Pages: a ogni push su main il sito viene BUILDATO
-# (Vite → dist/) e pubblicato con l'artefatto Pages. Richiede, una tantum:
-# Settings → Pages → Build and deployment → Source: "GitHub Actions".
+# Builda e pubblica dist/ su GitHub Pages a ogni push su main.
+# configure-pages con enablement:true imposta da solo la Source su
+# "GitHub Actions": se resta "Deploy from a branch", GitHub fa partire anche
+# la pipeline legacy che pubblica i sorgenti raw e, finendo per ultima,
+# sovrascrive la build (pagina bianca / versione vecchia a intermittenza).
 name: Deploy to GitHub Pages
 
 on:
@@ -28,20 +30,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
-      # Forza la sorgente Pages su "GitHub Actions": finché resta "Deploy from
-      # a branch", il deploy legacy pubblica i sorgenti e sovrascrive la build.
-      # Se il token non avesse i permessi (stampa il codice HTTP nel log), va
-      # fatto a mano: Settings → Pages → Source: GitHub Actions.
-      - name: Imposta la sorgente Pages su GitHub Actions
-        run: |
-          code=$(curl -s -o /tmp/pages.json -w "%{http_code}" -X PUT \
-            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            -H "Accept: application/vnd.github+json" \
-            "https://api.github.com/repos/${{ github.repository }}/pages" \
-            -d '{"build_type":"workflow"}')
-          echo "PUT /pages → HTTP $code"
-          cat /tmp/pages.json || true
-      - uses: actions/configure-pages@v5
+      - uses: actions/configure-pages@v4
         with:
           enablement: true
       - uses: actions/upload-pages-artifact@v3

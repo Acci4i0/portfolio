@@ -163,6 +163,14 @@ sup {
   position: absolute;
   right: -0.85em;
 }
+/* La scritta del nome: stesso carattere dell'intro di 3Dgallery (Monoton,
+   op-art monocase, peso unico 400, self-hostato via Fontsource). Il
+   margin-right: 0 neutralizza la regola generica `span` del riferimento. */
+.andrea {
+  font-family: 'Monoton', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  margin-right: 0;
+}
 .floating-image {
   cursor: pointer; /* entry.css */
   height: auto; /* larghezza fissa, aspect ratio naturale della foto */

@@ -1,4 +1,4 @@
-# portfolio — Andrea
+# portfolio — ANDREA
 
 Sito personale in due pagine:
 
@@ -42,4 +42,4 @@ in qualunque sottopercorso.
 
 ## Licenza
 
-[MIT](LICENSE) © Andrea ([Acci4i0](https://github.com/Acci4i0))
+[MIT](LICENSE) © ANDREA ([Acci4i0](https://github.com/Acci4i0))

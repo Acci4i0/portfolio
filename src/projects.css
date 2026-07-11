@@ -87,6 +87,13 @@ body {
   width: 100%;
 }
 
+/* La scritta del nome nel logo: stesso carattere dell'intro di 3Dgallery
+   (Monoton, op-art monocase, peso unico 400, self-hostato via Fontsource). */
+.andrea {
+  font-family: 'Monoton', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 400;
+}
+
 /* --- Bottoni — provenienza: 2m7ilckacmn_q.css (.header-btn) ---------------- */
 .header-btn {
   -webkit-backdrop-filter: blur(20px); /* 2m7ilckacmn_q.css */

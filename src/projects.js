@@ -7,6 +7,7 @@
  * ========================================================================== */
 import "@fontsource/inter/400.css";
 import "@fontsource/inter/500.css";
+import "@fontsource/monoton";
 import "lenis/dist/lenis.css";
 import Lenis from "lenis";
 import gsap from "gsap";

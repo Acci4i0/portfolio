@@ -1,3 +1,4 @@
+import "@fontsource/monoton";
 import gsap from "gsap";
 
 /* ============================================================================
@@ -18,7 +19,7 @@ import gsap from "gsap";
 // I testi vengono iniettati con innerHTML: puoi usare markup <span>/<sup>.
 // ---------------------------------------------------------------------------
 const texts = [
-  "ANDREA",
+  '<span class="andrea">ANDREA</span>',
   "lando.andrea04@gmail.com",
   "@andrelndo",
   "Ok",
@@ -42,7 +43,7 @@ const texts = [
 
 // Didascalia mostrata nell'h1 al passaggio del mouse sulla foto
 // (nell'originale: titolo del libro dell'artista — placeholder da modificare).
-const hoverCaption = "ANDREA — Ritratto";
+const hoverCaption = '<span class="andrea">ANDREA</span> — Ritratto';
 
 // Destinazione del click sulla foto: la pagina Projects (deviazione voluta dal
 // riferimento kris, che apriva un URL esterno in nuova scheda e nascondeva la

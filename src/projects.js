@@ -12,6 +12,14 @@ import "@fontsource/inter/500.css";
 import "@fontsource/monoton";
 import gsap from "gsap";
 import { projects } from "./projects-data.js";
+import { showPreloader } from "./preloader.js";
+
+// Preloader col contatore (stesso di 2Dgallery): solo al primo caricamento
+// della sessione, come sulla home — vedi src/main.js.
+if (!sessionStorage.getItem("preloaderShown")) {
+  sessionStorage.setItem("preloaderShown", "1");
+  showPreloader();
+}
 
 // prefers-reduced-motion: niente scramble; fade/linee sono azzerati in CSS.
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;

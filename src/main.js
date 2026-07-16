@@ -1,5 +1,14 @@
 import "@fontsource/monoton";
 import gsap from "gsap";
+import { showPreloader } from "./preloader.js";
+
+// Preloader col contatore (stesso di 2Dgallery): compare solo al primo
+// caricamento della sessione — l'equivalente MPA del "solo al primo mount"
+// della SPA di riferimento; navigando tra home e projects non ricompare.
+if (!sessionStorage.getItem("preloaderShown")) {
+  sessionStorage.setItem("preloaderShown", "1");
+  showPreloader();
+}
 
 /* ============================================================================
  * Replica del comportamento della homepage di riferimento (vedi ANALYSIS.md).

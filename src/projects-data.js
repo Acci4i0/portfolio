@@ -1,19 +1,14 @@
 /* ---------------------------------------------------------------------------
  * CONTENUTI — MODIFICA QUI
- * I 4 progetti (cartelle del Desktop). `href: null` = nessuna navigazione per
- * ora (deciso il 2026-07-10); quando avrai gli URL basta valorizzarli: si
- * apriranno in nuova scheda come nel riferimento. Le immagini sono screenshot
- * generati dei tuoi progetti (assets/projects/).
- * Anno = anno di modifica della cartella al momento della creazione.
+ * I 6 progetti della lista in stile rauno.me/projects (decisione 2026-07-16).
+ * `href: null` = riga non cliccabile (resa come <span>, testo più spento).
+ * Con href valorizzato: apertura in nuova scheda, come il riferimento.
  * ------------------------------------------------------------------------- */
-import imgGalleria from "../assets/projects/galleria.png";
-import imgRauno from "../assets/projects/rauno.png";
-import imgMeklit from "../assets/projects/meklit.png";
-import imgCrsw from "../assets/projects/crsw_ila.png";
-
 export const projects = [
-  { title: "3D Gallery", year: "2026", href: null, img: imgGalleria },
-  { title: "Rauno Rebuild", year: "2026", href: null, img: imgRauno },
-  { title: "Meklit", year: "2026", href: null, img: imgMeklit },
-  { title: "Cruciverba", year: "2026", href: null, img: imgCrsw },
+  { title: "Alcune mie foto", year: "2026", href: "https://acci4i0.github.io/3Dgallery/" },
+  { title: "Alcune (altre) mie foto", year: "2026", href: "https://acci4i0.github.io/2Dgallery/" },
+  { title: "Basic info", year: "2026", href: "https://acci4i0.github.io/crossword/" },
+  { title: "Work in progress", year: "2026", href: null },
+  { title: "Crsw_ILA", year: "2026", href: "https://acci4i0.github.io/crossword_ila/" },
+  { title: "Crsw_THOM", year: "2026", href: "https://acci4i0.github.io/crossword_thom/" },
 ];

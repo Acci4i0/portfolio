@@ -14,36 +14,78 @@ import gsap from "gsap";
  * ========================================================================== */
 
 // ---------------------------------------------------------------------------
-// CONTENUTI — MODIFICA QUI (testi inventati come placeholder, come concordato)
+// CONTENUTI — MODIFICA QUI
 // L'elemento 0 è quello visibile al load (nell'originale: il nome dell'artista).
 // I testi vengono iniettati con innerHTML: puoi usare markup <span>/<sup>.
+// Dopo nome/email/IG, una brevissima attribuzione e poi un estratto di
+// Antonio Tabucchi, suddiviso in porzioni come le frasi del riferimento kris:
+// alcune isolate e autosufficienti, altre che si concatenano, più un blocco
+// lungo (come il paragrafo "Quantum physics" dell'originale).
 // ---------------------------------------------------------------------------
 const texts = [
   '<span class="andrea">ANDREA</span>',
   "lando.andrea04@gmail.com",
   "@andrelndo",
-  "Ok",
-  "Ora parliamo d’altro",
-  "Per esempio del tempo che fa",
-  "O di quanto è difficile trovare parcheggio",
-  "O del perché il caffè del bar sotto casa è sempre il migliore",
-  "Comunque, questo sito non ha un menu",
-  "Non ha nemmeno le pagine",
-  "C’è solo questo testo",
-  "E una foto che gira per lo schermo",
-  "Se riesci a prenderla, complimenti",
-  "Se non ci riesci, va bene lo stesso",
-  "Le cose importanti sono altre",
-  "Tipo dormire bene",
-  "O una cena con gli amici",
-  "A proposito, puoi scrivermi quando vuoi",
-  "Oppure restare qui a cliccare",
-  "Va bene tutto",
+  "Le parole che seguono non sono mie",
+  "Le ha scritte Antonio Tabucchi",
+  // Virgolette d'apertura: qui inizia la citazione (chiusa sull'ultima frase).
+  "“A volte una soluzione sembra plausibile solo in questo modo: sognando",
+  // Parola singola isolata (caso raro, come "Ok"/"Yes" nel riferimento kris).
+  "Sognando",
+  "Forse perché la ragione è pavida",
+  "Non riesce a riempire i vuoti fra le cose",
+  "A stabilire la completezza, che è una forma di semplicità",
+  "Preferisce una complicazione piena di buchi",
+  "E allora la volontà affida la soluzione al sogno.",
+  // Lo stacco fra le due parti dell'estratto, da solo a schermo.
+  "[...]",
+  "La vita è un appuntamento",
+  "Lo so di dire una banalità",
+  // Accumulazione breve (come le liste corte del riferimento kris):
+  // ogni click ripete la frase e aggiunge un elemento.
+  "Solo che noi non sappiamo mai il quando",
+  "Solo che noi non sappiamo mai il quando, il chi",
+  "Solo che noi non sappiamo mai il quando, il chi, il come",
+  "Solo che noi non sappiamo mai il quando, il chi, il come, il dove",
+  "E allora uno pensa",
+  // Accumulazione lunga — replica della catena "Or the best way to cook…"
+  // del riferimento: la frase cresce a ogni click fino a culminare nel
+  // blocco su più righe.
+  "Se avessi detto questo invece di quello",
+  "Se avessi detto questo invece di quello, o quello invece di questo",
+  "Se avessi detto questo invece di quello, o quello invece di questo, se mi fossi alzato tardi invece che presto",
+  "Se avessi detto questo invece di quello, o quello invece di questo, se mi fossi alzato tardi invece che presto, o presto invece che tardi",
+  "Se avessi detto questo invece di quello, o quello invece di questo, se mi fossi alzato tardi invece che presto, o presto invece che tardi, oggi sarei impercettibilmente differente",
+  "Se avessi detto questo invece di quello, o quello invece di questo, se mi fossi alzato tardi invece che presto, o presto invece che tardi, oggi sarei impercettibilmente differente, e forse tutto il mondo sarebbe impercettibilmente differente",
+  "O sarebbe lo stesso, e io non potrei saperlo",
+  "Ma per esempio non starei qui a raccontare una storia",
+  "A proporre un rebus che non ha soluzione",
+  "O ha una soluzione che è inevitabilmente quella che ebbe e che io ignoro",
+  "E così la racconto a qualche amico, ogni tanto, raramente, bevendo un bicchiere",
+  "E dico: ti propongo un rebus, vediamo come lo risolvi",
+  "Ma poi perché a lei interessano i rebus, ha la passione dell’enigmistica o forse è solo la curiosità sterile di chi osserva la vita altrui?",
+  "Un appuntamento e un viaggio",
+  "Anche questa è una banalità",
+  "Mi riferisco alla vita, naturalmente",
+  "Chissà quante volte è stato detto",
+  "E poi nel grande viaggio si fanno dei viaggi, sono i nostri piccoli percorsi insignificanti sulla crosta di questo pianeta che a sua volta viaggia, ma verso dove?",
+  // Parola singola isolata (caso raro).
+  "Rebus",
+  "È tutto un rebus",
+  "Le sembrerò maniaco",
+  "Però a quel tempo io ero fermo",
+  "Era un momento di stasi",
+  // Parola singola isolata (caso raro).
+  "Accidia",
+  "Il mio tempo ristagnava in una pozza di accidia",
+  "Con quella tranquillità di quando non si è più troppo giovani ma non si è ancora troppo adulti",
+  // Chiusura della citazione: punto e virgolette.
+  "E si aspetta semplicemente la vita.”",
 ];
 
 // Didascalia mostrata nell'h1 al passaggio del mouse sulla foto
-// (nell'originale: titolo del libro dell'artista — placeholder da modificare).
-const hoverCaption = '<span class="andrea">ANDREA</span> — Ritratto';
+// (nell'originale: "Smoke, Kris Lüdi – Edition Patrick Frey").
+const hoverCaption = "Andrea Lando – Progetti:"; // trattino en dash, come nel riferimento kris
 
 // Destinazione del click sulla foto: la pagina Projects (deviazione voluta dal
 // riferimento kris, che apriva un URL esterno in nuova scheda e nascondeva la

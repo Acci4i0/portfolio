@@ -2,19 +2,20 @@
 
 Sito personale in due pagine:
 
-- **Home** (`index.html`): testo centrale che cicla al click/tastiera e una foto
-  che rimbalza per lo schermo; il click sulla foto porta alla pagina projects
-  con una transizione in dissolvenza.
-- **Projects** (`projects.html`): elenco dei lavori con doppia vista — **Grid**
-  (griglia di thumbnail) e **List** (lista con hover direzionale e preview che
-  segue il cursore) — più smooth scroll e transizioni di pagina.
+- **Home** (`index.html`): un estratto di Antonio Tabucchi che cicla al
+  click/tastiera, una frase alla volta, e una foto che rimbalza per lo schermo;
+  il click sulla foto porta alla pagina projects con una transizione in
+  dissolvenza.
+- **Projects** (`projects.html`): lista centrata dei progetti — riga
+  titolo/linea/anno con fade progressivo, disegno animato delle linee e
+  scramble dei testi al load — in versione chiara.
 
 ## Stack
 
 - [Vite](https://vitejs.dev) + JavaScript vanilla (build multipage)
-- [GSAP](https://gsap.com) per le transizioni di pagina e le micro-animazioni
-- [Lenis](https://lenis.darkroom.engineering) per lo smooth scroll
-- [Inter](https://rsms.me/inter/) self-hosted via `@fontsource/inter`
+- [GSAP](https://gsap.com) per le transizioni di pagina
+- [Inter](https://rsms.me/inter/) e [Monoton](https://fonts.google.com/specimen/Monoton)
+  self-hosted via `@fontsource`
 
 ## Comandi
 
